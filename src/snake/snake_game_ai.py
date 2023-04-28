@@ -20,7 +20,7 @@ font = pygame.font.Font('arial.ttf', 25)
 
 class SnakeGameAI(SnakeGame):
     def __init__(self, width=640, height=480):
-        super().__init__()
+        super().__init__(width, height)
 
         # init game state
         self.reset()
