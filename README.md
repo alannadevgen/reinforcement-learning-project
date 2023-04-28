@@ -14,9 +14,11 @@ pip3 install -r requirements.txt
 python3 main.py
 ```
 
+If you encounter issues with `cuda` please refer yourself to this [issue](https://github.com/pytorch/pytorch/issues/30664).
+
 ## Contributors
 
-* Alanna DEVLIN-GENIN
-* Clément DIGOIN
-* Camille LE POTIER
-* Hélène MOGENET
+- Alanna DEVLIN-GENIN
+- Clément DIGOIN
+- Camille LE POTIER
+- Hélène MOGENET
