@@ -27,7 +27,3 @@ class SnakeGame(ABC):
     @abstractmethod
     def _move(self):
         pass
-    
-    @abstractmethod
-    def _is_collision(self):
-        pass

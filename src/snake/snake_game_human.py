@@ -18,7 +18,7 @@ font = pygame.font.Font('arial.ttf', 25)
 
 class SnakeGameHuman(SnakeGame):
     def __init__(self, width=640, height=480):
-        super().__init__()
+        super().__init__(width=width, height=height)
 
         # init game state
         self.direction = DIRECTION.RIGHT
