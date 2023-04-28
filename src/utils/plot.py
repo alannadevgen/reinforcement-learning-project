@@ -17,7 +17,7 @@ def plot(scores, mean_scores):
     plt.plot(mean_scores, label="Mean score")
     plt.ylim(ymin=0)
     
-    plt.legend(framon=False)
+    plt.legend(frameon=False)
 
     plt.text(len(scores)-1, scores[-1], str(scores[-1]))
     plt.text(len(mean_scores)-1, mean_scores[-1], str(mean_scores[-1]))
