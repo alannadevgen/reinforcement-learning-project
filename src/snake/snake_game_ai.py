@@ -19,13 +19,62 @@ font = pygame.font.Font('arial.ttf', 25)
 
 
 class SnakeGameAI(SnakeGame):
+    '''
+    This class plays snake using an AI.
+
+    Attributes
+    ----------
+    width : int
+        width of screen
+    height : int
+        height of screen
+    direction : DIRECTION
+        current direction of the snake
+    head : Point
+        head of the snake
+    snake : list
+        full body of snake
+    score : int
+        score of the game
+    food : Point
+        position of the food
+    frame_iteration : int
+        number of iterations
+
+
+    Methods
+    -------
+    reset()
+        Reset the game
+    place_food()
+        Place food on the screen
+    play_step()
+        Collect AI imput to make the snake move
+    update_ui()
+        Update the game
+    move()
+        Define how the snake move
+    is_collision()
+        Define if the snake crashed
+    '''
     def __init__(self, width=640, height=480):
+        '''
+        Parameters
+        ----------
+        width : int, optional
+            width of screen (default is 640)
+        height : int, optional
+            height of screen (default is 480)
+        '''
         super().__init__(width, height)
 
         # init game state
         self.reset()
 
     def reset(self):
+        '''
+        Reset the game back to its original state.
+        '''
         self.direction = DIRECTION.RIGHT
         self.head = Point(self.width/2, self.height/2)
         self.snake = [self.head,
@@ -37,6 +86,9 @@ class SnakeGameAI(SnakeGame):
         self.frame_iteration = 0
 
     def _place__food(self):
+        '''
+        Place food at the beginning of the game or after it has been eaten.
+        '''
         x = random.randint(
             0, (self.width - BLOCK_SIZE)//BLOCK_SIZE
         ) * BLOCK_SIZE
@@ -48,6 +100,26 @@ class SnakeGameAI(SnakeGame):
             self._place__food()
 
     def play_step(self, action):
+        '''
+        Collect the AI input, in order to define the movement of the snake.
+        The input is defined by a reward.
+        Checks if there is a game over.
+
+        Parameters
+        ----------
+        action : list
+            action taken by the AI
+
+
+        Returns
+        -------
+        reward : int
+            Reward of the step/action
+        game_over : bool
+            Define if the game is over           
+        score : int
+            Score of the game after the step
+        '''
         self.frame_iteration += 1
         # 1. Collect the user input
         for event in pygame.event.get():
@@ -83,6 +155,9 @@ class SnakeGameAI(SnakeGame):
         return reward, game_over, self.score
 
     def _update_ui(self):
+        '''
+        Update the game after each action.
+        '''
         self.display.fill(COLORS.BLACK.value)
         for pt in self.snake:
             pygame.draw.rect
@@ -110,6 +185,14 @@ class SnakeGameAI(SnakeGame):
         pygame.display.flip()
 
     def _move(self, action):
+        '''
+        Define how the snake is going to move.
+
+        Parameters
+        ----------
+        action : list
+            action taken by the AI
+        '''
         # Action
         # [1,0,0] -> Straight
         # [0,1,0] -> Right Turn
@@ -142,6 +225,9 @@ class SnakeGameAI(SnakeGame):
         self.head = Point(x, y)
 
     def is_collision(self, pt=None):
+        '''
+        Define if there is a collision between the snake and the boundaries or its body.
+        '''
         if pt is None:
             pt = self.head
         # hit boundary
