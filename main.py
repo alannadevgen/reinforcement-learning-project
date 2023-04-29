@@ -45,16 +45,16 @@ def main(type):
             if done:
                 # Train long memory,plot result
                 game.reset()
-                agent.nb_game += 1
+                agent.num_game += 1
                 agent.train_long_memory()
                 if score > reward:  # new High score
                     reward = score
                     agent.model.save()
-                print(f'Game #{agent.nb_game} Score: {score} Record: {record}')
+                print(f'Game #{agent.num_game} Score: {score} Record: {record}')
                 
                 plot_scores.append(score)
                 total_score += score
-                mean_score = total_score / agent.nb_game
+                mean_score = total_score / agent.num_game
                 plot_mean_scores.append(mean_score)
                 plot(plot_scores, plot_mean_scores)
 

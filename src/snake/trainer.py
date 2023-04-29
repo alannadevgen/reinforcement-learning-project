@@ -9,8 +9,8 @@ class Trainer:
 
     Attributes
     ----------
-    lr : ?
-        # je ne vois pas à quoi correspond ce paramètre
+    lr : float
+        learning rate
     gamma : int
         parameter for discount rate
     model : ?
@@ -49,8 +49,8 @@ class Trainer:
             reward of the action
         next_state : np.array
             state of the game after the action
-        done : ?
-            # Je ne vois pas à quoi ce paramètre sert
+        done : bool
+            Is the game over?
         '''
         state = torch.tensor(state, dtype=torch.float).cuda()
         next_state = torch.tensor(next_state, dtype=torch.float).cuda()
@@ -73,6 +73,7 @@ class Trainer:
             if not done[idx]:
                 Q_new = reward[idx] + self.gamma * torch.max(self.model(next_state[idx])).cuda()
             target[idx][torch.argmax(action).item()] = Q_new
+        
         # 2. Q_new = reward + gamma * max(next_predicted Qvalue)
         # -> only do this if not done
         # pred.clone()

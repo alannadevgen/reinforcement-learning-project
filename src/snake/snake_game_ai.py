@@ -22,12 +22,6 @@ class SnakeGameAI(SnakeGame):
     '''
     This class plays snake using an AI.
 
-
-    Parameters
-    ----------
-    SnakeGame : SnakeGame
-        structure of the game
-
     Attributes
     ----------
     width : int
@@ -47,7 +41,6 @@ class SnakeGameAI(SnakeGame):
     frame_iteration : int
         number of iterations
 
-
     Methods
     -------
     reset()
@@ -57,11 +50,11 @@ class SnakeGameAI(SnakeGame):
     play_step()
         Collect AI imput to make the snake move
     update_ui()
-        Update the game
+        Update the game frame
     move()
-        Define how the snake move
+        Define how the snake moves
     is_collision()
-        Define if the snake crashed
+        Define if the snake crashed against a wall
     '''
     def __init__(self, width=640, height=480):
         '''
@@ -93,7 +86,7 @@ class SnakeGameAI(SnakeGame):
 
     def _place__food(self):
         '''
-        Place food at the beginning of the game or after it has been eaten.
+        Place food at the beginning of the game and after it has been eaten.
         '''
         x = random.randint(
             0, (self.width - BLOCK_SIZE)//BLOCK_SIZE
@@ -115,7 +108,6 @@ class SnakeGameAI(SnakeGame):
         ----------
         action : list
             action taken by the AI
-
 
         Returns
         -------

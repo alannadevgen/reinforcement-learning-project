@@ -14,15 +14,16 @@ class Agent:
     Define all the components of an agent playing the game.
 
     Attributes
-    ---------
-    nb_game : int
-        number of games performed by the agent
+    ----------
+    num_game : int
+        number of the current game
     epsilon : int
         parameter for randomness
-    gamma  : int
+    gamma : int
         parameter for discount rate
     memory : deque
-        abstract data type that generalizes a queue, where elements can be removed if they are at the front or back
+        abstract data type that generalizes a queue, where elements can be
+        removed if they are at the front or back
     model : Model
         model of the game
     trainer : Trainer
@@ -42,9 +43,9 @@ class Agent:
         Get an action to be performed according to the state
     '''
     def __init__(self):
-        self.nb_game = 0
-        self.epsilon = 0  # Randomness
-        self.gamma = 0.9  # discount rate
+        self.num_game = 0
+        self.epsilon = 0 
+        self.gamma = 0.9
         self.memory = deque(maxlen=MAX_MEMORY)  # popleft()
         self.model = Model(11, 256, 3)
         self.trainer = Trainer(self.model, lr=LR, gamma=self.gamma)
@@ -128,8 +129,8 @@ class Agent:
             reward of the action
         next_state : np.array
             state of the game after the action
-        done : ?
-            # Je ne vois pas à quoi ce paramètre sert
+        done : bool
+            Is the game over?
         '''
         self.memory.append(
             (state, action, reward, next_state, done)
@@ -180,7 +181,7 @@ class Agent:
             move to be performed
         '''
         # random moves: tradeoff explotation / exploitation
-        self.epsilon = 80 - self.nb_game
+        self.epsilon = 80 - self.num_game
         final_move = [0, 0, 0]
         if random.randint(0, 200) < self.epsilon:
             move = random.randint(0, 2)
