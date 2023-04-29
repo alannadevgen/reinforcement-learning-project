@@ -20,6 +20,11 @@ class SnakeGameHuman(SnakeGame):
     '''
     This class makes the snake game playable for human users.
 
+    Parameters
+    ----------
+    SnakeGame : SnakeGame
+        structure of the game
+
     Attributes
     ----------
     width : int

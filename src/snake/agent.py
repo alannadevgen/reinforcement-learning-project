@@ -10,6 +10,37 @@ from src.snake.trainer import Trainer
 
 
 class Agent:
+    '''
+    Define all the components of an agent playing the game.
+
+    Attributes
+    ---------
+    nb_game : int
+        number of games performed by the agent
+    epsilon : int
+        parameter for randomness
+    gamma  : int
+        parameter for discount rate
+    memory : deque
+        abstract data type that generalizes a queue, where elements can be removed if they are at the front or back
+    model : Model
+        model of the game
+    trainer : Trainer
+        trainer of the AI
+
+    Methods
+    -------
+    get_state(game)
+        Get the state of the game
+    remember(state, action, reward, next_state, done)
+        Add elements to the AI memory
+    train_long_memory()
+        Train the long term memory of the AI
+    train_short_memory(state, action, reward, next_state, done)
+        Train the short term memory of the AI
+    get_action(state)
+        Get an action to be performed according to the state
+    '''
     def __init__(self):
         self.nb_game = 0
         self.epsilon = 0  # Randomness
@@ -26,6 +57,19 @@ class Agent:
     # food up, food down]
     @staticmethod
     def get_state(game):
+        '''
+        Get the current state of the game
+
+        Parameters
+        ----------
+        game : SnakeGame
+            object representing the game
+
+        Returns
+        -------
+        state : np.array
+            state of the game
+        '''
         head = game.snake[0]
         point_left = Point(head.x - BLOCK_SIZE, head.y)
         point_right = Point(head.x + BLOCK_SIZE, head.y)
@@ -71,11 +115,29 @@ class Agent:
         return np.array(state, dtype=int)
 
     def remember(self, state, action, reward, next_state, done):
+        '''
+        Append to the memory of the AI the change of state, the action and the reward.
+
+        Parameters
+        ---------
+        state : np.array
+            state of the game before the action
+        action : list
+            action to be taken by the AI
+        reward : int
+            reward of the action
+        next_state : np.array
+            state of the game after the action
+        done
+        '''
         self.memory.append(
             (state, action, reward, next_state, done)
         )  # popleft if memory exceed
 
     def train_long_memory(self):
+        '''
+        Train the long term memory of the AI.
+        '''
         if len(self.memory) > BATCH_SIZE:
             mini_sample = random.sample(self.memory, BATCH_SIZE)
         else:
@@ -84,9 +146,25 @@ class Agent:
         self.trainer.train_step(states, actions, rewards, next_states, dones)
 
     def train_short_memory(self, state, action, reward, next_state, done):
+        '''
+        Train the short term memory of the AI.
+        '''
         self.trainer.train_step(state, action, reward, next_state, done)
 
     def get_action(self, state):
+        '''
+        Define the action which is going to serve as a future input.
+
+        Parameters
+        ---------
+        state : np.array
+            state of the game
+
+        Returns
+        -------
+        final_move : list
+            move to be performed
+        '''
         # random moves: tradeoff explotation / exploitation
         self.epsilon = 80 - self.nb_game
         final_move = [0, 0, 0]

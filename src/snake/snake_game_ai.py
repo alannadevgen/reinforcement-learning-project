@@ -22,6 +22,12 @@ class SnakeGameAI(SnakeGame):
     '''
     This class plays snake using an AI.
 
+
+    Parameters
+    ----------
+    SnakeGame : SnakeGame
+        structure of the game
+
     Attributes
     ----------
     width : int
