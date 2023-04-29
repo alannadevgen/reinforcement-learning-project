@@ -2,6 +2,9 @@ from enum import Enum
 
 
 class COLORS(Enum):
+    '''
+    Defines the colors used in the game.
+    '''
     WHITE = (255, 255, 255)
     RED = (200, 0, 0)
     BLUE = (0, 0, 255)

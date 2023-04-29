@@ -4,6 +4,28 @@ import torch.optim as optim
 
 
 class Trainer:
+    '''
+    Trains the AI to make a decision at each step of the game according to previous results.
+
+    Attributes
+    ----------
+    lr : ?
+        # je ne vois pas à quoi correspond ce paramètre
+    gamma : int
+        parameter for discount rate
+    model : ?
+        # idem, je ne vois pas à quoi correspond ce paramètre
+    optimer : optim.Adam
+        optimize parameters of the model
+    criterion : loss function, default is nn.MSELoss()
+        loss function used as a criterion for efficiency
+
+    Methods
+    -------
+    train_step(state, action, reward, next_state, done)
+        Train the model at each step
+
+    '''
     def __init__(self, model, lr, gamma):
         self.lr = lr
         self.gamma = gamma
@@ -14,6 +36,22 @@ class Trainer:
             print(i.is_cuda)
 
     def train_step(self, state, action, reward, next_state, done):
+        '''
+        Train the model after each action according to the results.
+
+        Parameters
+        ---------
+        state : np.array
+            state of the game before the action
+        action : list
+            action to be taken by the AI
+        reward : int
+            reward of the action
+        next_state : np.array
+            state of the game after the action
+        done : ?
+            # Je ne vois pas à quoi ce paramètre sert
+        '''
         state = torch.tensor(state, dtype=torch.float).cuda()
         next_state = torch.tensor(next_state, dtype=torch.float).cuda()
         action = torch.tensor(action, dtype=torch.long).cuda()

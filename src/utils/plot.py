@@ -5,6 +5,16 @@ plt.ion()
 
 
 def plot(scores, mean_scores):
+    '''
+    Plot the game results.
+
+    Parameters
+    ----------
+    scores : list
+        scores
+    mean_scores : list
+        mean scores
+    '''
     display.clear_output(wait=True)
     display.display(plt.gcf())
     plt.clf()

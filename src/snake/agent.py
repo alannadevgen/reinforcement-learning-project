@@ -128,7 +128,8 @@ class Agent:
             reward of the action
         next_state : np.array
             state of the game after the action
-        done
+        done : ?
+            # Je ne vois pas à quoi ce paramètre sert
         '''
         self.memory.append(
             (state, action, reward, next_state, done)
@@ -148,6 +149,19 @@ class Agent:
     def train_short_memory(self, state, action, reward, next_state, done):
         '''
         Train the short term memory of the AI.
+
+        Parameters
+        ---------
+        state : np.array
+            state of the game before the action
+        action : list
+            action to be taken by the AI
+        reward : int
+            reward of the action
+        next_state : np.array
+            state of the game after the action
+        done : ?
+            # Je ne vois pas à quoi ce paramètre sert
         '''
         self.trainer.train_step(state, action, reward, next_state, done)
 
