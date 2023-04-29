@@ -17,7 +17,48 @@ font = pygame.font.Font('arial.ttf', 25)
 
 
 class SnakeGameHuman(SnakeGame):
+    '''
+    This class makes the snake game playable for human users.
+
+    Attributes
+    ----------
+    width : int
+        width of screen
+    height : int
+        height of screen
+    direction : DIRECTION
+        current direction of the snake
+    head : Point
+        head of the snake
+    snake : list
+        full body of snake
+    score : int
+        score of the game
+    food : Point
+        position of the food
+
+    Methods
+    -------
+    place_food()
+        Place food on the screen
+    play_step()
+        Collect user imput to make the snake move
+    update_ui()
+        Update the game
+    move()
+        Define how the snake move
+    is_collision()
+        Define if the snake crashed
+    '''
     def __init__(self, width=640, height=480):
+        '''
+        Parameters
+        ----------
+        width : int, optional
+            width of screen (default is 640)
+        height : int, optional
+            height of screen (default is 480)
+        '''
         super().__init__(width=width, height=height)
 
         # init game state
@@ -31,6 +72,9 @@ class SnakeGameHuman(SnakeGame):
         self._place__food()
 
     def _place__food(self):
+        '''
+        Place food at the beginning of the game or after it has been eaten.
+        '''
         x = random.randint(0, (self.width-BLOCK_SIZE)//BLOCK_SIZE) * BLOCK_SIZE
         y = random.randint(0, (self.height-BLOCK_SIZE)//BLOCK_SIZE) * BLOCK_SIZE
         self.food = Point(x, y)
@@ -38,6 +82,10 @@ class SnakeGameHuman(SnakeGame):
             self._place__food()
 
     def play_step(self):
+        '''
+        Collect the user input, in order to define the movement of the snake.
+        Checks if there is a game over.
+        '''
         # 1. Collect the user input
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -74,6 +122,9 @@ class SnakeGameHuman(SnakeGame):
         return game_over, self.score
 
     def _update_ui(self):
+        '''
+        Update the game after each action.
+        '''
         self.display.fill(COLORS.BLACK.value)
         for pt in self.snake:
             pygame.draw.rect
@@ -98,6 +149,9 @@ class SnakeGameHuman(SnakeGame):
         pygame.display.flip()
 
     def _move(self, direction):
+        '''
+        Define how the snake is going to move.
+        '''
         x = self.head.x
         y = self.head.y
         if direction == DIRECTION.RIGHT:
@@ -111,6 +165,9 @@ class SnakeGameHuman(SnakeGame):
         self.head = Point(x, y)
 
     def _is_collision(self):
+        '''
+        Define if there is a collision between the snake and the boundaries or its body.
+        '''
         # hit boundary
         if (self.head.x > self.width-BLOCK_SIZE or self.head.x < 0 or self.head.y > self.height - BLOCK_SIZE or self.head.y < 0):
             return True
