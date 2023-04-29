@@ -47,15 +47,14 @@ class Agent:
         self.epsilon = 0 
         self.gamma = 0.9
         self.memory = deque(maxlen=MAX_MEMORY)  # popleft()
-        self.model = Model(11, 256, 3)
+        self.model = Model(input_size=11, hidden_size=256, output_size=3)
+        # state (11 Values): [ danger straight, danger right, danger left,
+        # direction left, direction right, direction up, direction down
+        # food left, food right, food up, food down]
+        # output layer: dim 3 --> reward, game over, continue game
         self.trainer = Trainer(self.model, lr=LR, gamma=self.gamma)
 
-    # state (11 Values)
-    # [ danger straight, danger right, danger left,
-    # direction left, direction right,
-    # direction up, direction down
-    # food left,food right,
-    # food up, food down]
+    
     @staticmethod
     def get_state(game):
         '''
@@ -115,7 +114,14 @@ class Agent:
         ]
         return np.array(state, dtype=int)
 
-    def remember(self, state, action, reward, next_state, done):
+    def remember(
+            self,
+            state: np.array,
+            action: list,
+            reward: int,
+            next_state: np.array,
+            done: bool
+        ):
         '''
         Append to the memory of the AI the change of state, the action and the reward.
 
@@ -147,7 +153,14 @@ class Agent:
         states, actions, rewards, next_states, dones = zip(*mini_sample)
         self.trainer.train_step(states, actions, rewards, next_states, dones)
 
-    def train_short_memory(self, state, action, reward, next_state, done):
+    def train_short_memory(
+        self,
+        state: np.array,
+        action: list,
+        reward: int,
+        next_state: np.array,
+        done: bool
+        ):
         '''
         Train the short term memory of the AI.
 
@@ -161,12 +174,12 @@ class Agent:
             reward of the action
         next_state : np.array
             state of the game after the action
-        done : ?
-            # Je ne vois pas à quoi ce paramètre sert
+        done : bool
+            Is the game over?
         '''
         self.trainer.train_step(state, action, reward, next_state, done)
 
-    def get_action(self, state):
+    def get_action(self, state: np.array):
         '''
         Define the action which is going to serve as a future input.
 

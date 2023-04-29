@@ -13,8 +13,8 @@ class Trainer:
         learning rate
     gamma : int
         parameter for discount rate
-    model : ?
-        # idem, je ne vois pas à quoi correspond ce paramètre
+    model : Model
+        Neural net model
     optimer : optim.Adam
         optimize parameters of the model
     criterion : loss function, default is nn.MSELoss()
