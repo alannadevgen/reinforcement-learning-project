@@ -1,3 +1,4 @@
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -55,7 +56,7 @@ class Trainer:
         done : bool
             Is the game over?
         '''
-        state = torch.tensor(state, dtype=torch.float).cpu()
+        state = torch.tensor(np.array(state), dtype=torch.float).cpu()
         next_state = torch.tensor(next_state, dtype=torch.float).cpu()
         action = torch.tensor(action, dtype=torch.long).cpu()
         reward = torch.tensor(reward, dtype=torch.float).cpu()
