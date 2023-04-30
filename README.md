@@ -37,7 +37,7 @@ AssertionError: Torch not compiled with CUDA enabled
 # Options:
 #   --type [AI|HUMAN]  Type of game to compute.
 #   --speed INTEGER    Snake speed
-#   --help             Show this message and exit.            Show this message and exit.
+#   --help             Show this message and exit.
 ```
 
 ## Play
@@ -47,6 +47,10 @@ AssertionError: Torch not compiled with CUDA enabled
  python3 main.py --type HUMAN
  python3 main.py --type HUMAN --speed 10
 ```
+
+## Demonstration
+
+![Snake demo](https://github.com/alannagenin/reinforcement-learning-project/blob/main/demo/training.gif)
 
 ## Contributors
 
