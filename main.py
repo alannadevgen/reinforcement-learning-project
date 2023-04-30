@@ -7,7 +7,7 @@ from src.snake.snake_game_human import SnakeGameHuman
 from src.utils.plot import plot
 
 os.environ["SDL_VIDEODRIVER"] = "dummy"
-os.environ["CUDA_VISIBLE_DEVICES"]=""
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
 
 @click.command()
@@ -28,10 +28,10 @@ def main(type, speed):
         plot_scores = []
         plot_mean_scores = []
         total_score = 0
-        record = 0
+        highscore = 0
         agent = Agent()
-        game = SnakeGameAI()
-        
+        game = SnakeGameAI(speed=speed)
+
         while True:
             # Get Old state
             state_old = agent.get_state(game)
@@ -56,18 +56,23 @@ def main(type, speed):
                 game.reset()
                 agent.num_game += 1
                 agent.train_long_memory()
-                if score > reward:  # new High score
-                    reward = score
+                if score > highscore:  # new High score
+                    highscore = score
                     agent.model.save()
-                print(f'Game #{agent.num_game} Score: {score} Record: {record}')
-                
+                print(
+                    f'Game #{agent.num_game}\t'
+                    f'\tScore: {score}'
+                    f'\tHigh score: {highscore}'
+                    )
+
                 plot_scores.append(score)
                 total_score += score
                 mean_score = total_score / agent.num_game
                 plot_mean_scores.append(mean_score)
-                plot(plot_scores, plot_mean_scores)
-    elif type.upper()=="HUMAN":
-        game = SnakeGameHuman(SPEED=speed)
+                plot(plot_scores, plot_mean_scores, highscore=highscore)
+
+    elif type.upper() == "HUMAN":
+        game = SnakeGameHuman(speed=speed)
 
         # Game loop
         # game_over=False
