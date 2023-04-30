@@ -11,10 +11,23 @@ cd reinforcement-learning-project
 python3 -m venv venv
 source venv/bin/activate
 pip3 install -r requirements.txt
-python3 main.py
 ```
 
 If you encounter issues with `cuda` please refer yourself to this [issue](https://github.com/pytorch/pytorch/issues/30664).
+
+```bash
+raise AssertionError("Torch not compiled with CUDA enabled")
+AssertionError: Torch not compiled with CUDA enabled
+```
+
+```bash
+ python3 main.py --help
+#  Usage: main.py [OPTIONS]
+
+# Options:
+#   --type [AI|HUMAN]  Type of game to compute.
+#   --help             Show this message and exit.
+```
 
 ## Contributors
 
