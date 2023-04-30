@@ -1,12 +1,13 @@
 import click
 import os
+import pygame
 from src.snake.agent import Agent
 from src.snake.snake_game_ai import SnakeGameAI
+from src.snake.snake_game_human import SnakeGameHuman
 from src.utils.plot import plot
 
 os.environ["SDL_VIDEODRIVER"] = "dummy"
 os.environ["CUDA_VISIBLE_DEVICES"]=""
-
 
 
 @click.command()
@@ -16,8 +17,14 @@ os.environ["CUDA_VISIBLE_DEVICES"]=""
     help='Type of game to compute.',
     type=click.Choice(['AI', 'HUMAN'], case_sensitive=False)
 )
-def main(type):
-    if type == "AI":
+@click.option(
+    '--speed',
+    default=20,
+    help='Snake speed',
+    type=int
+)
+def main(type, speed):
+    if type.upper() == "AI":
         plot_scores = []
         plot_mean_scores = []
         total_score = 0
@@ -59,6 +66,18 @@ def main(type):
                 mean_score = total_score / agent.num_game
                 plot_mean_scores.append(mean_score)
                 plot(plot_scores, plot_mean_scores)
+    elif type.upper()=="HUMAN":
+        game = SnakeGameHuman(SPEED=speed)
+
+        # Game loop
+        # game_over=False
+        while True:
+            game_over, score = game.play_step()
+            if game_over:
+                break
+        print('Final Score', score)
+
+        pygame.quit()
 
 
 if __name__ == "__main__":

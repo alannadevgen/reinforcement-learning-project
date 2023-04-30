@@ -55,7 +55,7 @@ class SnakeGameHuman(SnakeGame):
     is_collision()
         Define if the snake crashed
     '''
-    def __init__(self, width=640, height=480):
+    def __init__(self, width=640, height=480, SPEED=SPEED):
         '''
         Parameters
         ----------
@@ -67,6 +67,7 @@ class SnakeGameHuman(SnakeGame):
         super().__init__(width=width, height=height)
 
         # init game state
+        self.SPEED = SPEED
         self.direction = DIRECTION.RIGHT
         self.head = Point(self.width/2, self.height/2)
         self.snake = [self.head,
@@ -122,7 +123,7 @@ class SnakeGameHuman(SnakeGame):
             self.snake.pop()
         # 5. Update UI and clock
         self._update_ui()
-        self.clock.tick(SPEED)
+        self.clock.tick(self.SPEED)
         # 6. Return game Over and Display Score
         return game_over, self.score
 
@@ -134,16 +135,16 @@ class SnakeGameHuman(SnakeGame):
         for pt in self.snake:
             pygame.draw.rect
             (
-                self.display, COLORS.BLUE, pygame.Rect
+                self.display, COLORS.BLUE.value, pygame.Rect
                 (
                     pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE
                 )
             )
             pygame.draw.rect(
-                self.display, COLORS.PURPLE, pygame.Rect(pt.x+4, pt.y+4, 12, 12)
+                self.display, COLORS.PURPLE.value, pygame.Rect(pt.x+4, pt.y+4, 12, 12)
             )
         pygame.draw.rect(
-            self.display, COLORS.RED, pygame.Rect(
+            self.display, COLORS.RED.value, pygame.Rect(
                 self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE
                 )
         )
@@ -179,17 +180,3 @@ class SnakeGameHuman(SnakeGame):
         if (self.head in self.snake[1:]):
             return True
         return False
-
-
-if __name__ == "__main__":
-    game = SnakeGameHuman()
-
-    # Game loop
-    # game_over=False
-    while True:
-        game_over, score = game.play_step()
-        if game_over:
-            break
-    print('Final Score', score)
-
-    pygame.quit()
