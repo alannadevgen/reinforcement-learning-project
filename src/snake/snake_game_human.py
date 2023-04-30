@@ -39,15 +39,19 @@ class SnakeGameHuman(SnakeGame):
         full body of snake
     score : int
         score of the game
-    food : Point
-        position of the food
-    type_food : int
-        type of the food 
+    food1 : Point
+        position of the food number 1
+    food2 : Point
+        position of the food number 2
+    type_food1 : int
+        type of the food number 1 
+    type_food2 : int
+        type of the food number 2 
 
     Methods
     -------
     place_food()
-        Define type of the food and place it on the screen
+        Define type of foods and place them on the screen
     play_step()
         Collect user imput to make the snake move
     update_ui()
@@ -76,19 +80,26 @@ class SnakeGameHuman(SnakeGame):
                       Point(self.head.x - BLOCK_SIZE, self.head.y),
                       Point(self.head.x - (2*BLOCK_SIZE), self.head.y)]
         self.score = 0
-        self.food = None
+        self.food1 = None
+        self.food2 = None
+        self.type_food1 = None
+        self.type_food2 = None
         self._place__food()
-        self.type_food = None
+        
 
     def _place__food(self):
         '''
-        Place food at the beginning of the game or after it has been eaten.
+        Place foods at the beginning of the game or after it has been eaten.
         '''
-        self.type_food = random.randint(1,3)
-        x = random.randint(0, (self.width-BLOCK_SIZE)//BLOCK_SIZE) * BLOCK_SIZE
-        y = random.randint(0, (self.height-BLOCK_SIZE)//BLOCK_SIZE) * BLOCK_SIZE
-        self.food = Point(x, y)
-        if self.food in self.snake:
+        self.type_food1 = random.randint(1,3)
+        self.type_food2 = random.randint(1,3)
+        x1 = random.randint(0, (self.width-BLOCK_SIZE)//BLOCK_SIZE) * BLOCK_SIZE
+        y1 = random.randint(0, (self.height-BLOCK_SIZE)//BLOCK_SIZE) * BLOCK_SIZE
+        self.food1 = Point(x1, y1)
+        x2 = random.randint(0, (self.width-BLOCK_SIZE)//BLOCK_SIZE) * BLOCK_SIZE
+        y2 = random.randint(0, (self.height-BLOCK_SIZE)//BLOCK_SIZE) * BLOCK_SIZE
+        self.food2 = Point(x2, y2)
+        if (self.food1 in self.snake) | (self.food2 in self.snake):
             self._place__food()
         
 
@@ -121,10 +132,18 @@ class SnakeGameHuman(SnakeGame):
             game_over = True
             return game_over, self.score
         # 4. Place new Food or just move
-        if self.head == self.food:  
-            if self.type_food == 1 :
+        if (self.head == self.food1) :  
+            if self.type_food1 == 1 :
                 self.score += 10
-            elif self.type_food == 2 :
+            elif self.type_food1 == 2 :
+                self.score += 5
+            else :
+                self.score += 1
+            self._place__food()
+        elif (self.head == self.food2) :  
+            if self.type_food2 == 1 :
+                self.score += 10
+            elif self.type_food2 == 2 :
                 self.score += 5
             else :
                 self.score += 1
@@ -153,21 +172,38 @@ class SnakeGameHuman(SnakeGame):
             pygame.draw.rect(
                 self.display, COLORS.PURPLE.value, pygame.Rect(pt.x+4, pt.y+4, 12, 12)
             )
-        if self.type_food == 1 :
+
+        if self.type_food1 == 1 :
                 pygame.draw.rect(
                     self.display, COLORS.GREEN.value, pygame.Rect(
-                    self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE)
+                    self.food1.x, self.food1.y, BLOCK_SIZE, BLOCK_SIZE)
                 )
-        elif self.type_food == 2 :
+        elif self.type_food1 == 2 :
                 pygame.draw.rect(
                     self.display, COLORS.YELLOW.value, pygame.Rect(
-                    self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE)
+                    self.food1.x, self.food1.y, BLOCK_SIZE, BLOCK_SIZE)
                 )
         else :
                 pygame.draw.rect(
                     self.display, COLORS.RED.value, pygame.Rect(
-                    self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE)
+                    self.food1.x, self.food1.y, BLOCK_SIZE, BLOCK_SIZE)
                     )
+        if self.type_food2 == 1 :
+                pygame.draw.rect(
+                    self.display, COLORS.GREEN.value, pygame.Rect(
+                    self.food2.x, self.food2.y, BLOCK_SIZE, BLOCK_SIZE)
+                )
+        elif self.type_food2 == 2 :
+                pygame.draw.rect(
+                    self.display, COLORS.YELLOW.value, pygame.Rect(
+                    self.food2.x, self.food2.y, BLOCK_SIZE, BLOCK_SIZE)
+                )
+        else :
+                pygame.draw.rect(
+                    self.display, COLORS.RED.value, pygame.Rect(
+                    self.food2.x, self.food2.y, BLOCK_SIZE, BLOCK_SIZE)
+                    )
+
         text = font.render(
             "Score: " + str(self.score), True, COLORS.WHITE.value
         )

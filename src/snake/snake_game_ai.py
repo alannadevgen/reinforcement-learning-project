@@ -37,7 +37,7 @@ class SnakeGameAI(SnakeGame):
     score : int
         score of the game
     food : Point
-        position of the food
+        position of the food 
     type_food : int
         type of the food 
     frame_iteration : int
@@ -48,7 +48,7 @@ class SnakeGameAI(SnakeGame):
     reset()
         Reset the game
     place_food()
-        Define type of the food and place it on the screen
+        Define type of rhe food and place it on the screen
     play_step()
         Collect AI imput to make the snake move
     update_ui()
@@ -83,15 +83,15 @@ class SnakeGameAI(SnakeGame):
                       Point(self.head.x - (2*BLOCK_SIZE), self.head.y)]
         self.score = 0
         self.food = None
+        self.type_food = None
         self._place__food()
         self.frame_iteration = 0
-        self.type_food = None
 
     def _place__food(self):
         '''
         Place food at the beginning of the game and after it has been eaten.
         '''
-        self.type_food = random.randint(1,3)
+        self.type_food1 = random.randint(1,3)
         x = random.randint(
             0, (self.width - BLOCK_SIZE)//BLOCK_SIZE
         ) * BLOCK_SIZE
@@ -99,7 +99,7 @@ class SnakeGameAI(SnakeGame):
             0, (self.height - BLOCK_SIZE)//BLOCK_SIZE
         ) * BLOCK_SIZE
         self.food = Point(x, y)
-        if self.food in self.snake:
+        if (self.food in self.snake) :
             self._place__food()
 
     def play_step(self, action):
@@ -151,7 +151,6 @@ class SnakeGameAI(SnakeGame):
             else :
                 self.score += 1
                 reward = 1
-            self._place__food()
 
         else:
             self.snake.pop()
