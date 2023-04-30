@@ -3,12 +3,13 @@
 The aim of this project is to implement a snake game using Reinforcement Learning.
 It will be a revisited game of Snake, where you have random items that can give you more points.
 
-
 Two game modes are available:
+
 - The human mode where the user can play with the arrows on the numeric keypad.
 - The AI mode where an AI learns by itself to play the snake game
 
 Three types of fruits exist in the game:
+
 - Apples worth 1 point (red fruit)
 - Bananas worth 5 points (yellow fruit)
 - Kiwis worth 10 points (green fruit)
@@ -23,12 +24,9 @@ source venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
-If you encounter issues with `cuda` please refer yourself to this [issue](https://github.com/pytorch/pytorch/issues/30664).
+## Play snake game :video_game:
 
-```bash
-raise AssertionError("Torch not compiled with CUDA enabled")
-AssertionError: Torch not compiled with CUDA enabled
-```
+Here is the help menu to start playing!
 
 ```bash
  python3 main.py --help
@@ -40,12 +38,21 @@ AssertionError: Torch not compiled with CUDA enabled
 #   --help             Show this message and exit.
 ```
 
-## Play
+You can change the default values using the following commands:
 
 ```bash
  python3 main.py --type AI
  python3 main.py --type HUMAN
  python3 main.py --type HUMAN --speed 10
+```
+
+## Issues :warning:
+
+If you encounter issues with `cuda` please refer yourself to this [issue](https://github.com/pytorch/pytorch/issues/30664).
+
+```bash
+raise AssertionError("Torch not compiled with CUDA enabled")
+AssertionError: Torch not compiled with CUDA enabled
 ```
 
 ## Demonstration
