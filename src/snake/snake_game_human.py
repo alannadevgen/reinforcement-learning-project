@@ -41,11 +41,13 @@ class SnakeGameHuman(SnakeGame):
         score of the game
     food : Point
         position of the food
+    type_food : int
+        type of the food 
 
     Methods
     -------
     place_food()
-        Place food on the screen
+        Define type of the food and place it on the screen
     play_step()
         Collect user imput to make the snake move
     update_ui()
@@ -76,16 +78,19 @@ class SnakeGameHuman(SnakeGame):
         self.score = 0
         self.food = None
         self._place__food()
+        self.type_food = None
 
     def _place__food(self):
         '''
         Place food at the beginning of the game or after it has been eaten.
         '''
+        self.type_food = random.randint(1,3)
         x = random.randint(0, (self.width-BLOCK_SIZE)//BLOCK_SIZE) * BLOCK_SIZE
         y = random.randint(0, (self.height-BLOCK_SIZE)//BLOCK_SIZE) * BLOCK_SIZE
         self.food = Point(x, y)
         if self.food in self.snake:
             self._place__food()
+        
 
     def play_step(self):
         '''
@@ -116,8 +121,13 @@ class SnakeGameHuman(SnakeGame):
             game_over = True
             return game_over, self.score
         # 4. Place new Food or just move
-        if self.head == self.food:
-            self.score += 1
+        if self.head == self.food:  
+            if self.type_food == 1 :
+                self.score += 10
+            elif self.type_food == 2 :
+                self.score += 5
+            else :
+                self.score += 1
             self._place__food()
         else:
             self.snake.pop()
@@ -143,11 +153,21 @@ class SnakeGameHuman(SnakeGame):
             pygame.draw.rect(
                 self.display, COLORS.PURPLE.value, pygame.Rect(pt.x+4, pt.y+4, 12, 12)
             )
-        pygame.draw.rect(
-            self.display, COLORS.RED.value, pygame.Rect(
-                self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE
+        if self.type_food == 1 :
+                pygame.draw.rect(
+                    self.display, COLORS.GREEN.value, pygame.Rect(
+                    self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE)
                 )
-        )
+        elif self.type_food == 2 :
+                pygame.draw.rect(
+                    self.display, COLORS.YELLOW.value, pygame.Rect(
+                    self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE)
+                )
+        else :
+                pygame.draw.rect(
+                    self.display, COLORS.RED.value, pygame.Rect(
+                    self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE)
+                    )
         text = font.render(
             "Score: " + str(self.score), True, COLORS.WHITE.value
         )

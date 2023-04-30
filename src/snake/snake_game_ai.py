@@ -38,6 +38,8 @@ class SnakeGameAI(SnakeGame):
         score of the game
     food : Point
         position of the food
+    type_food : int
+        type of the food 
     frame_iteration : int
         number of iterations
 
@@ -46,7 +48,7 @@ class SnakeGameAI(SnakeGame):
     reset()
         Reset the game
     place_food()
-        Place food on the screen
+        Define type of the food and place it on the screen
     play_step()
         Collect AI imput to make the snake move
     update_ui()
@@ -83,11 +85,13 @@ class SnakeGameAI(SnakeGame):
         self.food = None
         self._place__food()
         self.frame_iteration = 0
+        self.type_food = None
 
     def _place__food(self):
         '''
         Place food at the beginning of the game and after it has been eaten.
         '''
+        self.type_food = random.randint(1,3)
         x = random.randint(
             0, (self.width - BLOCK_SIZE)//BLOCK_SIZE
         ) * BLOCK_SIZE
@@ -137,9 +141,16 @@ class SnakeGameAI(SnakeGame):
             reward = -10
             return reward, game_over, self.score
         # 4. Place new Food or just move
-        if self.head == self.food:
-            self.score += 1
-            reward = 10
+        if self.head == self.food: 
+            if self.type_food == 1 :
+                self.score += 10
+                reward = 10
+            elif self.type_food == 2 :
+                self.score += 5
+                reward = 5
+            else :
+                self.score += 1
+                reward = 1
             self._place__food()
 
         else:
@@ -170,12 +181,21 @@ class SnakeGameAI(SnakeGame):
                 COLORS.PURPLE.value,
                 pygame.Rect(pt.x+4, pt.y+4, 12, 12)
             )
-        pygame.draw.rect
-        (
-            self.display,
-            COLORS.RED.value,
-            pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE)
-        )
+        if self.type_food == 1 :
+                pygame.draw.rect(
+                    self.display, COLORS.GREEN.value, pygame.Rect(
+                    self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE)
+                )
+        elif self.type_food == 2 :
+                pygame.draw.rect(
+                    self.display, COLORS.YELLOW.value, pygame.Rect(
+                    self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE)
+                )
+        else :
+                pygame.draw.rect(
+                    self.display, COLORS.RED.value, pygame.Rect(
+                    self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE)
+                    )
         text = font.render(
             "Score: " + str(self.score), True, COLORS.WHITE.value
         )

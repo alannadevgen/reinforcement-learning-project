@@ -10,3 +10,5 @@ class COLORS(Enum):
     BLUE = (0, 0, 255)
     PURPLE = (0, 100, 255)
     BLACK = (0, 0, 0)
+    GREEN = (50,207,50)
+    YELLOW = (255,255,0)
