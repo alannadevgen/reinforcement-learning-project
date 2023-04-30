@@ -1,7 +1,17 @@
 # :snake: Snake game
 
 The aim of this project is to implement a snake game using Reinforcement Learning.
-It will be a revisited game of Snake, where you have random items that can give you more points or make you invincible for a determined period of time.
+It will be a revisited game of Snake, where you have random items that can give you more points.
+
+
+Two game modes are available:
+- The human mode where the user can play with the arrows on the numeric keypad.
+- The AI mode where an AI learns by itself to play the snake game
+
+Three types of fruits exist in the game:
+- Apples worth 1 point (red fruit)
+- Bananas worth 5 points (yellow fruit)
+- Kiwis worth 10 points (green fruit)
 
 ## Quick start
 
