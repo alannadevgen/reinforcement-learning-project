@@ -22,11 +22,20 @@ AssertionError: Torch not compiled with CUDA enabled
 
 ```bash
  python3 main.py --help
-#  Usage: main.py [OPTIONS]
+# Usage: main.py [OPTIONS]
 
 # Options:
 #   --type [AI|HUMAN]  Type of game to compute.
-#   --help             Show this message and exit.
+#   --speed INTEGER    Snake speed
+#   --help             Show this message and exit.            Show this message and exit.
+```
+
+## Play
+
+```bash
+ python3 main.py --type AI
+ python3 main.py --type HUMAN
+ python3 main.py --type HUMAN --speed 10
 ```
 
 ## Contributors
