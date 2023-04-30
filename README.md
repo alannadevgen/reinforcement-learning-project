@@ -57,9 +57,11 @@ AssertionError: Torch not compiled with CUDA enabled
 
 ## Demonstration
 
-![Snake training steps](https://github.com/alannagenin/reinforcement-learning-project/blob/main/demo/training_ai_snake.png)
+![Snake](https://github.com/alannagenin/reinforcement-learning-project/blob/main/demo/snake.png)
 
 ![Snake demo](https://github.com/alannagenin/reinforcement-learning-project/blob/main/demo/training.gif)
+
+![Snake training steps](https://github.com/alannagenin/reinforcement-learning-project/blob/main/demo/training_ai_snake.png)
 
 ## Contributors :woman_technologist:
 
