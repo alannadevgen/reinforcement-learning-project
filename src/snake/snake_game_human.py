@@ -162,8 +162,8 @@ class SnakeGameHuman(SnakeGame):
         '''
         self.display.fill(COLORS.BLACK.value)
         for pt in self.snake:
-            pygame.draw.rect
-            (
+            print(pt)
+            pygame.draw.rect(
                 self.display, COLORS.BLUE.value, pygame.Rect
                 (
                     pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE

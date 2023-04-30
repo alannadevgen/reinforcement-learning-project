@@ -166,16 +166,16 @@ class SnakeGameAI(SnakeGame):
         '''
         Update the game after each action.
         '''
+        import time
+        # time.sleep(1)
         self.display.fill(COLORS.BLACK.value)
         for pt in self.snake:
-            pygame.draw.rect
-            (
+            pygame.draw.rect(
                 self.display,
                 COLORS.BLUE.value,
                 pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE)
             )
-            pygame.draw.rect
-            (
+            pygame.draw.rect(
                 self.display,
                 COLORS.PURPLE.value,
                 pygame.Rect(pt.x+4, pt.y+4, 12, 12)
