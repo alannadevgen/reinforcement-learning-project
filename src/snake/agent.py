@@ -7,6 +7,8 @@ from src.utils.utils import MAX_MEMORY, BATCH_SIZE, LR, BLOCK_SIZE
 from src.enum.direction import DIRECTION
 from src.snake.model import Model
 from src.snake.trainer import Trainer
+import os
+os.environ["CUDA_VISIBLE_DEVICES"]=""
 
 
 class Agent:
@@ -200,8 +202,8 @@ class Agent:
             move = random.randint(0, 2)
             final_move[move] = 1
         else:
-            state0 = torch.tensor(state, dtype=torch.float).cuda()
-            prediction = self.model(state0).cuda()  # prediction by model
+            state0 = torch.tensor(state, dtype=torch.float).cpu()
+            prediction = self.model(state0).cpu()  # prediction by model
             move = torch.argmax(prediction).item()
             final_move[move] = 1
         return final_move

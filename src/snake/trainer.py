@@ -1,6 +1,9 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import os
+
+os.environ["CUDA_VISIBLE_DEVICES"]=""
 
 
 class Trainer:
@@ -32,8 +35,8 @@ class Trainer:
         self.model = model
         self.optimer = optim.Adam(model.parameters(), lr=self.lr)
         self.criterion = nn.MSELoss()
-        for i in self.model.parameters():
-            print(i.is_cuda)
+        # for i in self.model.parameters():
+        #     print(i.is_cuda)
 
     def train_step(self, state, action, reward, next_state, done):
         '''
@@ -52,26 +55,26 @@ class Trainer:
         done : bool
             Is the game over?
         '''
-        state = torch.tensor(state, dtype=torch.float).cuda()
-        next_state = torch.tensor(next_state, dtype=torch.float).cuda()
-        action = torch.tensor(action, dtype=torch.long).cuda()
-        reward = torch.tensor(reward, dtype=torch.float).cuda()
+        state = torch.tensor(state, dtype=torch.float).cpu()
+        next_state = torch.tensor(next_state, dtype=torch.float).cpu()
+        action = torch.tensor(action, dtype=torch.long).cpu()
+        reward = torch.tensor(reward, dtype=torch.float).cpu()
 
         if len(state.shape) == 1:  # only one parameter to train ,
             # Hence convert to tuple of shape (1, x)
-            state = torch.unsqueeze(state, 0).cuda()
-            next_state = torch.unsqueeze(next_state, 0).cuda()
-            action = torch.unsqueeze(action, 0).cuda()
-            reward = torch.unsqueeze(reward, 0).cuda()
+            state = torch.unsqueeze(state, 0).cpu()
+            next_state = torch.unsqueeze(next_state, 0).cpu()
+            action = torch.unsqueeze(action, 0).cpu()
+            reward = torch.unsqueeze(reward, 0).cpu()
             done = (done, )
 
         # 1. Predicted Q value with current state
-        pred = self.model(state).cuda()
-        target = pred.clone().cuda()
+        pred = self.model(state).cpu()
+        target = pred.clone().cpu()
         for idx in range(len(done)):
             Q_new = reward[idx]
             if not done[idx]:
-                Q_new = reward[idx] + self.gamma * torch.max(self.model(next_state[idx])).cuda()
+                Q_new = reward[idx] + self.gamma * torch.max(self.model(next_state[idx])).cpu()
             target[idx][torch.argmax(action).item()] = Q_new
         
         # 2. Q_new = reward + gamma * max(next_predicted Qvalue)

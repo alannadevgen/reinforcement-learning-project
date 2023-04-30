@@ -5,13 +5,15 @@ from src.snake.snake_game_ai import SnakeGameAI
 from src.utils.plot import plot
 
 os.environ["SDL_VIDEODRIVER"] = "dummy"
+os.environ["CUDA_VISIBLE_DEVICES"]=""
+
 
 
 @click.command()
 @click.option(
     '--type',
     default='AI',
-    help='Sample size.',
+    help='Type of game to compute.',
     type=click.Choice(['AI', 'HUMAN'], case_sensitive=False)
 )
 def main(type):

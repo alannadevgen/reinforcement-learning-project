@@ -3,6 +3,8 @@ import torch.nn as nn
 import torch.nn.functional as functional
 import os
 
+os.environ["CUDA_VISIBLE_DEVICES"]=""
+
 
 class Model(nn.Module):
     '''
@@ -37,8 +39,8 @@ class Model(nn.Module):
             Size of the output layer
         '''
         super().__init__()
-        self.first_layer = nn.Linear(input_size, hidden_size).cuda()
-        self.second_layer = nn.Linear(hidden_size, output_size).cuda()
+        self.first_layer = nn.Linear(input_size, hidden_size).cpu()
+        self.second_layer = nn.Linear(hidden_size, output_size).cpu()
 
     def forward(self, step):
         '''
