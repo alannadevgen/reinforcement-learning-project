@@ -10,13 +10,6 @@ from src.snake.snake_game import SnakeGame
 pygame.init()
 font = pygame.font.Font('arial.ttf', 25)
 
-# Reset
-# Reward
-# Play(action) -> Direction
-# Game_Iteration
-# is_collision
-
-
 
 class SnakeGameAI(SnakeGame):
     '''
@@ -37,9 +30,9 @@ class SnakeGameAI(SnakeGame):
     score : int
         score of the game
     food : Point
-        position of the food 
+        position of the food
     type_food : int
-        type of the food 
+        type of the food
     frame_iteration : int
         number of iterations
 
@@ -58,7 +51,7 @@ class SnakeGameAI(SnakeGame):
     is_collision()
         Define if the snake crashed against a wall
     '''
-    def __init__(self, width=640, height=480):
+    def __init__(self, width=640, height=480, speed=SPEED):
         '''
         Parameters
         ----------
@@ -68,6 +61,7 @@ class SnakeGameAI(SnakeGame):
             height of screen (default is 480)
         '''
         super().__init__(width, height)
+        self.speed = speed
 
         # init game state
         self.reset()
@@ -84,14 +78,13 @@ class SnakeGameAI(SnakeGame):
         self.score = 0
         self.food = None
         self.type_food = None
-        self._place__food()
+        self._place_food()
         self.frame_iteration = 0
 
-    def _place__food(self):
+    def _place_food(self):
         '''
         Place food at the beginning of the game and after it has been eaten.
         '''
-        self.type_food1 = random.randint(1,3)
         x = random.randint(
             0, (self.width - BLOCK_SIZE)//BLOCK_SIZE
         ) * BLOCK_SIZE
@@ -99,8 +92,8 @@ class SnakeGameAI(SnakeGame):
             0, (self.height - BLOCK_SIZE)//BLOCK_SIZE
         ) * BLOCK_SIZE
         self.food = Point(x, y)
-        if (self.food in self.snake) :
-            self._place__food()
+        if (self.food in self.snake):
+            self._place_food()
 
     def play_step(self, action):
         '''
@@ -118,7 +111,7 @@ class SnakeGameAI(SnakeGame):
         reward : int
             Reward of the step/action
         game_over : bool
-            Define if the game is over           
+            Define if the game is over
         score : int
             Score of the game after the step
         '''
@@ -141,33 +134,25 @@ class SnakeGameAI(SnakeGame):
             reward = -10
             return reward, game_over, self.score
         # 4. Place new Food or just move
-        if self.head == self.food: 
-            if self.type_food == 1 :
-                self.score += 10
-                reward = 10
-            elif self.type_food == 2 :
-                self.score += 5
-                reward = 5
-            else :
-                self.score += 1
-                reward = 1
+        if self.head == self.food:
+            self.score += 1
+            reward = 10
+            self._place_food()
 
         else:
             self.snake.pop()
 
         # 5. Update UI and clock
         self._update_ui()
-        self.clock.tick(SPEED)
-        # 6. Return game Over and Display Score
+        self.clock.tick(self.speed)
 
+        # 6. Return game Over and display score
         return reward, game_over, self.score
 
     def _update_ui(self):
         '''
         Update the game after each action.
         '''
-        import time
-        # time.sleep(1)
         self.display.fill(COLORS.BLACK.value)
         for pt in self.snake:
             pygame.draw.rect(
@@ -180,21 +165,25 @@ class SnakeGameAI(SnakeGame):
                 COLORS.PURPLE.value,
                 pygame.Rect(pt.x+4, pt.y+4, 12, 12)
             )
-        if self.type_food == 1 :
-                pygame.draw.rect(
-                    self.display, COLORS.GREEN.value, pygame.Rect(
+            pygame.draw.rect(
+                self.display, COLORS.RED.value, pygame.Rect(
                     self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE)
                 )
-        elif self.type_food == 2 :
-                pygame.draw.rect(
-                    self.display, COLORS.YELLOW.value, pygame.Rect(
-                    self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE)
-                )
-        else :
-                pygame.draw.rect(
-                    self.display, COLORS.RED.value, pygame.Rect(
-                    self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE)
-                    )
+        # if self.type_food == 1:
+        #     pygame.draw.rect(
+        #         self.display, COLORS.GREEN.value, pygame.Rect(
+        #             self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE)
+        #     )
+        # elif self.type_food == 2:
+        #     pygame.draw.rect(
+        #         self.display, COLORS.YELLOW.value, pygame.Rect(
+        #             self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE)
+        #     )
+        # else:
+        #     pygame.draw.rect(
+        #         self.display, COLORS.RED.value, pygame.Rect(
+        #             self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE)
+        #         )
         text = font.render(
             "Score: " + str(self.score), True, COLORS.WHITE.value
         )
@@ -243,7 +232,8 @@ class SnakeGameAI(SnakeGame):
 
     def is_collision(self, pt=None):
         '''
-        Define if there is a collision between the snake and the boundaries or its body.
+        Define if there is a collision between the snake and the boundaries
+        or its body.
         '''
         if pt is None:
             pt = self.head
