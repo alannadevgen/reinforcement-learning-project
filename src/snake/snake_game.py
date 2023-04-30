@@ -37,19 +37,19 @@ class SnakeGame(ABC):
         self.display = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption('Snake')
         self.clock = pygame.time.Clock()
-    
+
     @abstractmethod
-    def _place__food(self):
+    def _place_food(self):
         pass
-    
+
     @abstractmethod
     def play_step(self):
         pass
-    
+
     @abstractmethod
     def _update_ui(self):
         pass
-    
+
     @abstractmethod
     def _move(self):
         pass
