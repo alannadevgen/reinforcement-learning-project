@@ -52,9 +52,8 @@ AssertionError: Torch not compiled with CUDA enabled
 
 ![Snake demo](https://github.com/alannagenin/reinforcement-learning-project/blob/main/demo/training.gif)
 
-## Contributors
+## Contributors :woman_technologist:
 
-- Alanna DEVLIN-GENIN
-- Clément DIGOIN
-- Camille LE POTIER
-- Hélène MOGENET
+<a href="https://github.com/alannagenin/reinforcement-learning-project/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=alannagenin/reinforcement-learning-project" />
+</a>
